@@ -27,4 +27,4 @@ argparse - `pip install argparse` (If not included with standard library)
 
 ## Build
 - Build with pyinstaller: `pyinstaller -F main.py`
-- Or download in [release](https://github.com/nandakho/img-loader/release)
+- Or download in [release](https://github.com/nandakho/img-loader/releases)
