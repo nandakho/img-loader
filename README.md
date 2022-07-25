@@ -26,5 +26,5 @@ PyQt5 - `pip install PyQt5`
 argparse - `pip install argparse` (If not included with standard library)
 
 ## Build
-- Build with pyinstaller: 
-- Or download in [release]()
+- Build with pyinstaller: `pyinstaller -F main.py`
+- Or download in [release](https://github.com/nandakho/image-loader/releases)
