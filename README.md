@@ -16,9 +16,9 @@ or with binary:
   
 Example with binary:
 ```
-main.exe -h #Show helps
-main.exe image.jpg  #Open image.jpg with all default options (50% opacity, window-less, not draggable, and does not stay on top)  
-main.exe -o 10 -w -t image.jpg  #Open image.jpg with 10% opacity, windowed, draggable, and stay on top  
+main.exe -h                         #Show helps
+main.exe image.jpg                  #Open image.jpg with all default options (50% opacity, window-less, not draggable, and does not stay on top)  
+main.exe -o 10 -w -t image.jpg      #Open image.jpg with 10% opacity, windowed, draggable, and stay on top  
 ```
 
 ## Lib Used
