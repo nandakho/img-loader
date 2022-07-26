@@ -1,4 +1,4 @@
-import sys
+import sys,os
 import argparse
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QPixmap
@@ -25,10 +25,28 @@ def set_img(img_name):
     form.show_img.setEnabled(True)
     form.img_url.setText(img_name)
     pixmap = QPixmap(img_name)
-    label.setPixmap(pixmap)
-    label.setGeometry(0, 0, pixmap.width(), pixmap.height())
+    iw = pixmap.width()
+    ih = pixmap.height()
+    percent = 1
+    maxw = int(app.primaryScreen().size().width()*percent)
+    maxh = int(app.primaryScreen().size().height()*percent)
+    if iw>ih:
+        if iw>maxw:
+            label.setPixmap(pixmap.scaledToWidth(maxw))
+            ih = (maxw/iw)*ih
+            iw = maxw
+        else:
+            label.setPixmap(pixmap)
+    if ih>iw:
+        if ih>maxh:
+            label.setPixmap(pixmap.scaledToHeight(maxh))
+            iw = (maxh/ih)*iw
+            ih = maxh
+        else:
+            label.setPixmap(pixmap)
+    label.setGeometry(0, 0, int(iw), int(ih))
     imgwindow.label = label
-    imgwindow.resize(pixmap.width(),pixmap.height())
+    imgwindow.resize(int(iw), int(ih))
 
 def set_top_window(isTop,isWindow):
     if isWindow==True:
@@ -41,6 +59,13 @@ def set_top_window(isTop,isWindow):
         else:
             imgwindow.setWindowFlags(Qt.WindowType.FramelessWindowHint)
 
+def toggle_top_window():
+    top = form.top_true.isChecked()
+    window = form.window_true.isChecked()
+    set_top_window(top,window)
+
+## Max Memorry Allocated to Load Image Here in Megabytes
+os.environ['QT_IMAGEIO_MAXALLOC'] = "2048"
 parser = argparse.ArgumentParser(description="Open image file as transparent overlay")
 parser.add_argument('-i','--image_name', type=str, help="Accept String as target's file name (Optional)")
 parser.add_argument('-o','--opacity', type=int, help="Accept Integer as percentage of desired opacity value (Optional, Default: 50)", default=50)
@@ -52,6 +77,7 @@ app.setStyle('Fusion')
 Form, Window = uic.loadUiType("main-menu.ui")
 mainmenu = Window()
 imgwindow = QWidget()
+imgwindow.setAttribute(Qt.WidgetAttribute.WA_QuitOnClose, False)
 imgwindow.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground, True)
 imgwindow.setAttribute(Qt.WidgetAttribute.WA_NoSystemBackground, True)
 set_top_window(args.windowed,args.top)
@@ -66,6 +92,7 @@ if args.opacity:
     form.opacity_slider.setValue(args.opacity)
     set_opacity(args.opacity)
 form.pick_img.clicked.connect(get_img)
-print(form.opacity_slider.value())
+form.window_true.toggled.connect(toggle_top_window)
+form.top_true.toggled.connect(toggle_top_window)
 mainmenu.show()
 sys.exit(app.exec())
