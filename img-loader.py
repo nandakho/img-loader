@@ -5,6 +5,12 @@ from PyQt6.QtGui import *
 from PyQt6.QtWidgets import *
 from PyQt6 import uic
 
+## Need this for pyinstaller one file executable
+try:
+    os.chdir(sys._MEIPASS)
+except:
+    pass
+
 def show_img():
     if form.show_img.text()=="Show Image":
         form.show_img.setText("Hide Image")

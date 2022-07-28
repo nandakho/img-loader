@@ -53,7 +53,8 @@ main.exe -o 10 -w -t -i image.jpg   #Open image.jpg with 10% opacity, windowed, 
 ## Lib Used
 PyQt6 - `pip install PyQt6`  
 argparse - `pip install argparse` (If not included with standard library)
+pyinstaller - `pip install pyinstaller`
 
 ## Build
-- Build with pyinstaller: `pyinstaller -F main.py`
+- Build with pyinstaller: `pyinstaller -F img-loader.spec`
 - Or download in [release](https://github.com/nandakho/img-loader/releases)
