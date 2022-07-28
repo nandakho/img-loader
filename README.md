@@ -56,5 +56,6 @@ argparse - `pip install argparse` (If not included with standard library)
 pyinstaller - `pip install pyinstaller`
 
 ## Build
-- Build with pyinstaller: `pyinstaller -F img-loader.spec`
-- Or download in [release](https://github.com/nandakho/img-loader/releases)
+- Build with pyinstaller: `pyinstaller img-loader.spec`  
+Binary output in generated `dist` folder  
+- Or download prebuilt one in [release](https://github.com/nandakho/img-loader/releases)
