@@ -81,7 +81,7 @@ parser.add_argument('-m','--max-ratio', type=int, help="If loaded image's dimens
 args = parser.parse_args()
 app = QApplication(sys.argv)
 app.setStyle('Fusion')
-Form, Window = uic.loadUiType("main-menu.ui")
+Form, Window = uic.loadUiType("img-loader.ui")
 mainmenu = Window()
 imgwindow = QWidget()
 imgwindow.resizeEvent = img_resize
