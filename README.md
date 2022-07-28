@@ -56,7 +56,7 @@ main.exe -o 10 -w -t -i image.jpg   #Open image.jpg with 10% opacity, windowed, 
 
 ## Lib Used
 PyQt6 - `pip install PyQt6`  
-argparse - `pip install argparse` (If not included with standard library)
+argparse - `pip install argparse` (If not included with standard library)  
 pyinstaller - `pip install pyinstaller`
 
 ## Build
