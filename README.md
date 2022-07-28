@@ -32,8 +32,12 @@ Example 3:
 MAX_RATIO: 30  
 Screen Resolution: 1366*768  
 Image Loaded: 2880*1440  
-Displayed Image Resolution: 410*230  
-Image is displayed on 410*205, which i'm too lazy to explain    
+Displayed Image Resolution: 408*204  
+Image is displayed on (408*204), this is based on screen's width ratio (1366 * 0.3 = 409.8) and screen's height ratio (768 * 0.3 = 230.4)  
+Converting both values to integer with original image aspect ratio (2:1) in mind, we got (408*230)  
+And if we take the width (408) it's height will become (204) based on original aspect ratio (2:1)  
+Meanwhile if we take the height (230) then it's width will become (460)  
+Since (408*204) is smaller than (230*460) then it's selected  
 
 ```
 
