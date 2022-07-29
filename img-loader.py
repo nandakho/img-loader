@@ -122,6 +122,7 @@ if args.image_name:
     prep_img(args.image_name)
 if args.opacity:
     form.opacity_slider.setValue(args.opacity)
+    set_opacity(args.opacity)
 if args.max_ratio:
     form.ratio_slider.setValue(args.max_ratio)
 if args.top==True:
