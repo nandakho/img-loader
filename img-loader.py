@@ -14,6 +14,7 @@ except:
 def show_img():
     if form.show_img.text()=="Show Image":
         form.show_img.setText("Hide Image")
+        set_img(form.img_url.toPlainText(),float(form.ratio_slider.value()/100))
         imgwindow.show()
     else:
         form.show_img.setText("Show Image")
@@ -25,23 +26,29 @@ def set_opacity(opacity):
     form.box_opacity.setTitle(title)
 
 def set_ratio(ratio):
-    title = "Maximum Image Ratio (On Pick Image): "+str(ratio)+"%"
+    if imgwindow.isVisible()==True:
+        show_img()
+    title = "Maximum Image Ratio: "+str(ratio)+"%"
     form.box_ratio.setTitle(title)
 
 def get_img():
     fname = QFileDialog.getOpenFileName(None,'Open image','',"Any Image (*.jpg *.jpeg *.png *.gif *.bmp *.jfif *.pjpeg *.pjp *.apng *.avif *.svg *.webp *.ico *.tif *.tiff *.cur)")
     if fname[0]!='':
-        set_img(fname[0],float(form.ratio_slider.value()/100))
+        prep_img(fname[0])
 
-def set_img(img_name,percent,size_new=None,size_old=None,resize=True):
-    form.show_img.setEnabled(True)
+def prep_img(img_name):
     form.img_url.setText(img_name)
+    form.show_img.setEnabled(True)
+
+def set_img(img_name,percent,size_new=None,resize=True):
     pixmap = QPixmap(img_name)
     iw = pixmap.width()
     ih = pixmap.height()
-    maxw = int(app.primaryScreen().size().width()*percent)
-    maxh = int(app.primaryScreen().size().height()*percent)
-    if size_new!=None and size_old!=None:
+    sw = app.primaryScreen().size().width()
+    sh = app.primaryScreen().size().height()
+    maxw = int(sw*percent)
+    maxh = int(sh*percent)
+    if size_new!=None:
         pixmap = pixmap.scaled(size_new.width(),size_new.height(),Qt.AspectRatioMode.KeepAspectRatio)
     else:
         pixmap = pixmap.scaled(maxw,maxh,Qt.AspectRatioMode.KeepAspectRatio) if iw>maxw or ih>maxh else pixmap
@@ -49,8 +56,13 @@ def set_img(img_name,percent,size_new=None,size_old=None,resize=True):
     label.setGeometry(0, 0, pixmap.width(), pixmap.height())
     imgwindow.label = label
     imgwindow.setWindowTitle(img_name)
+    if size_new==None:
+        imgwindow.move(find_center(sw,sh,pixmap.width(),pixmap.height()))
     if resize==True:
         imgwindow.adjustSize()
+
+def find_center(sw,sh,imgw,imgh):
+    return QPoint(int((sw-imgw)/2),int((sh-imgh)/2))
 
 def set_top_window(isTop,isWindow):
     imgwindow.destroy()
@@ -69,7 +81,7 @@ def set_top_window(isTop,isWindow):
     imgwindow.adjustSize()
 
 def img_resize(event):
-    set_img(imgwindow.windowTitle(),float(form.ratio_slider.value()/100),size_new=event.size(),size_old=event.oldSize(),resize=False)
+    set_img(imgwindow.windowTitle(),float(form.ratio_slider.value()/100),size_new=event.size(),resize=False)
 
 def toggle_top_window():
     top = form.top_true.isChecked()
@@ -103,17 +115,20 @@ form = Form()
 form.setupUi(mainmenu)
 mainmenu.setFixedSize(mainmenu.size())
 mainmenu.setWindowFlag(Qt.WindowType.WindowMaximizeButtonHint, False)
-set_top_window(args.windowed,args.top)
 form.show_img.clicked.connect(show_img)
 form.opacity_slider.valueChanged.connect(set_opacity)
 form.ratio_slider.valueChanged.connect(set_ratio)
 if args.image_name:
-    set_img(args.image_name,float(args.max_ratio/100))
+    prep_img(args.image_name)
 if args.opacity:
     form.opacity_slider.setValue(args.opacity)
-    set_opacity(args.opacity)
 if args.max_ratio:
     form.ratio_slider.setValue(args.max_ratio)
+if args.top==True:
+    form.top_true.setChecked(True)
+if args.windowed==True:
+    form.window_true.setChecked(True)
+toggle_top_window()
 form.pick_img.clicked.connect(get_img)
 form.window_true.toggled.connect(toggle_top_window)
 form.top_true.toggled.connect(toggle_top_window)

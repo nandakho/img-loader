@@ -221,7 +221,7 @@
      </rect>
     </property>
     <property name="title">
-     <string>Maximum Image Ratio (On Pick Image): 80%</string>
+     <string>Maximum Image Ratio: 80%</string>
     </property>
     <widget class="QSlider" name="ratio_slider">
      <property name="geometry">
